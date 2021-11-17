@@ -21,13 +21,13 @@
 // console.log(tarea1)
 // tarea2.finalizarTarea()
 // console.log(tareas)
-
+let cantidadDeTareas = () =>{
+    return console.log("Cantidad de tareas pendientes: " , (listaTarea.length))
+}
 
 let listaTarea = []
 let tarea = prompt("Ingrese la tarea pendiente");
 listaTarea.push(tarea)
 let tarea2 = prompt("Ingrese la tarea pendiente");
 listaTarea.push(tarea2)
-let cantidadDeTareas = listaTarea.length
-console.log(listaTarea)
-console.log("Cantidad de tareas pendientes: " , cantidadDeTareas)
+cantidadDeTareas()
