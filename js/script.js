@@ -21,13 +21,40 @@
 // console.log(tarea1)
 // tarea2.finalizarTarea()
 // console.log(tareas)
-let cantidadDeTareas = () =>{
-    return console.log("Cantidad de tareas pendientes: " , (listaTarea.length))
-}
 
-let listaTarea = []
-let tarea = prompt("Ingrese la tarea pendiente");
-listaTarea.push(tarea)
-let tarea2 = prompt("Ingrese la tarea pendiente");
-listaTarea.push(tarea2)
-cantidadDeTareas()
+const formulario = document.getElementById('formulario')
+const input = document.getElementById('input')
+const listaTareas = document.getElementById('lista-tareas')
+
+const template = document.getElementById('template').content
+
+const fragment = document.createDocumentFragment()
+
+let tareas = {}
+
+
+formulario.addEventListener('submit', event =>{
+    event.preventDefault()
+    setTarea(event)
+})
+
+
+const setTarea = event => {
+    if (input.value.trim() === '') {
+        console.log('esta vacio')
+        return
+        
+    }
+    const tarea = {
+        id: Date.now(),
+        texto: input.value,
+        estado: false
+    }
+
+    tareas[tarea.id] = tarea
+    console.log(tareas)
+    formulario.reset()
+    input.focus()
+    console.log(tarea)
+    
+}
