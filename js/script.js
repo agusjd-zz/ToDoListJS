@@ -1,33 +1,24 @@
-// class Tarea {
-//     constructor(id,nombre,texto) {
-//       this.id = id;
-//       this.nombre = nombre;
-//       this.texto = texto;
-//       this.finalizada = false;
-//     }
+$( document ).ready(function() {
+    console.log( "ready!" );
+});
 
-//     finalizarTarea(){
-//       this.finalizada = true;
-//     }
-//   }
+class Tarea {
+   constructor(id,texto) {
+      this.id = id;
+      this.texto = texto;
+      this.estado = false;
+   }
 
-// const tareas = [];
- 
-// const tarea1 = new Tarea(1,"Tarea1","Texto de tarea1")
-// const tarea2 = new Tarea(1,"Tarea2","Texto de tarea2")
+    finalizarTarea(){
+       this.estado = true;
+    }
+  }
 
-// tareas.push(tarea1)
-// tareas.push(tarea2)
-// console.log(tarea1)
-// tarea2.finalizarTarea()
-// console.log(tareas)
 
 const formulario = document.getElementById('formulario')
 const input = document.getElementById('input')
 const listaTareas = document.getElementById('lista-tareas')
-
 const template = document.getElementById('template').content
-
 const fragment = document.createDocumentFragment()
 
 let tareas = {}
@@ -52,9 +43,30 @@ const setTarea = event => {
     }
 
     tareas[tarea.id] = tarea
-    console.log(tareas)
+
     formulario.reset()
     input.focus()
-    console.log(tarea)
-    
+    mostrarTareas()
 }
+
+const mostrarTareas = () =>{
+    Object.values(tareas).forEach(tarea =>{
+        const clone = template.cloneNode(true)
+        clone.querySelector('p').textContent = tarea.texto
+        fragment.appendChild(clone)
+    })
+}
+
+const URLGET = "https://jsonplaceholder.typicode.com/posts"
+
+$("#btn1").click(()=>{
+    $.post(URLGET, function(res, state){
+        if (state === "success") {
+            let datos = res;
+            for (let dato of datos){
+                console.log(dato.title)
+            }
+            
+        }
+    })
+})
