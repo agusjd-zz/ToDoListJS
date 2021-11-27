@@ -23,6 +23,14 @@ const fragment = document.createDocumentFragment()
 
 let tareas = {}
 
+document.addEventListener('DOMContentLoaded', () =>{
+    mostrarTareas()
+})
+
+listaTareas.addEventListener('click', e =>{
+    btnAccion(e)
+
+})
 
 formulario.addEventListener('submit', event =>{
     event.preventDefault()
@@ -50,13 +58,34 @@ const setTarea = event => {
 }
 
 const mostrarTareas = () =>{
+    listaTareas.innerHTML = " "
     Object.values(tareas).forEach(tarea =>{
         const clone = template.cloneNode(true)
         clone.querySelector('p').textContent = tarea.texto
+        clone.querySelectorAll('.far')[0].dataset.id = tarea.id
+        clone.querySelectorAll('.far')[1].dataset.id = tarea.id
         fragment.appendChild(clone)
     })
+    listaTareas.appendChild(fragment)
 }
 
+
+const btnAccion = e =>{
+    if (e.target.classList.contains('fa-check-circle')) {
+        console.log(e.target.dataset.id)
+        tareas[e.target.dataset.id].estado = true
+        mostrarTareas()
+        console.log(tareas)
+        
+    }
+    if (e.target.classList.contains('fa-trash-alt')) {
+        delete tareas[e.target.dataset.id]
+        mostrarTareas()
+        console.log(tareas)
+        
+    }
+    e.stopPropagation()
+}
 const URLGET = "https://jsonplaceholder.typicode.com/posts"
 
 $("#btn1").click(()=>{
@@ -70,3 +99,4 @@ $("#btn1").click(()=>{
         }
     })
 })
+
