@@ -58,12 +58,27 @@ const setTarea = event => {
 }
 
 const mostrarTareas = () =>{
+    if (Object.values(tareas).length === 0) {
+        listaTareas.innerHTML = `
+        <div class="alert alert-dark text-center">
+            No hay tareas pendientes!
+        </div> `
+        return
+    }
+
+
     listaTareas.innerHTML = " "
     Object.values(tareas).forEach(tarea =>{
         const clone = template.cloneNode(true)
         clone.querySelector('p').textContent = tarea.texto
-        clone.querySelectorAll('.far')[0].dataset.id = tarea.id
-        clone.querySelectorAll('.far')[1].dataset.id = tarea.id
+
+        if (tarea.estado) {
+            clone.querySelector('.alert').classList.replace('alert-secondary','alert-primary')
+            clone.querySelectorAll('.fas')[0].classList.replace('fa-check-circle','fa-undo-alt')
+            clone.querySelector('p').style.textDecoration = 'line-through'
+        }
+        clone.querySelectorAll('.fas')[0].dataset.id = tarea.id
+        clone.querySelectorAll('.fas')[1].dataset.id = tarea.id
         fragment.appendChild(clone)
     })
     listaTareas.appendChild(fragment)
@@ -72,18 +87,20 @@ const mostrarTareas = () =>{
 
 const btnAccion = e =>{
     if (e.target.classList.contains('fa-check-circle')) {
-        console.log(e.target.dataset.id)
         tareas[e.target.dataset.id].estado = true
         mostrarTareas()
-        console.log(tareas)
         
     }
     if (e.target.classList.contains('fa-trash-alt')) {
         delete tareas[e.target.dataset.id]
         mostrarTareas()
-        console.log(tareas)
-        
     }
+    if (e.target.classList.contains('fa-undo-alt')) {     
+        tareas[e.target.dataset.id].estado = false
+        mostrarTareas()
+       
+    }
+
     e.stopPropagation()
 }
 const URLGET = "https://jsonplaceholder.typicode.com/posts"
