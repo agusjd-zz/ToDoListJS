@@ -25,7 +25,7 @@ let tareas = {}
 
 document.addEventListener('DOMContentLoaded', () =>{
     if(localStorage.getItem('tareas')){
-        tareas = JSON.parse(localStorage.ggetItem('tareas'))
+        tareas = JSON.parse(localStorage.getItem('tareas'))
     }
     mostrarTareas()
 })
